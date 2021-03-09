@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <title>Hello, world!</title>
+  </head>
+
+  <style>
+      h1 a{
+          font-size: 3.5rem;
+          color: white;
+          text-decoration: none;
+      }
+      h2{
+          color: white;
+          font-size: 2.5rem;
+          text-decoration: underline;
+      }
+      body{
+        background: #1D4350;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #A43931, #1D4350);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #A43931, #1D4350); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+      }
+  </style>
+  <body>
+    
+    <div class="container">
+        <h1 class="text-center"><a href="/">Cryto Tracker</a></h1>
+        <h2><%= currency %> </h2>
+    </div>
+
+    <div id="chart_div" style="width: 100%; height: 500px;"></div>
+
+
+    <script>
+
+        var prices = <%- JSON.stringify(prices) %>;
+        // console.log(prices);
+
+        var prices_data = [["Day", "Price"]];
+        for(let i = 0; i < prices.length; i++){
+            prices_data.push([prices.length - i, prices[i]]);
+        }
+
+        // console.log(prices_data)
+
+
+
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable(prices_data);
+
+            var options = {
+            title: 'Price Data of last 90 days',
+            hAxis: {title: 'Day',  titleTextStyle: {color: '#333'}},
+            vAxis: {minValue: 0}
+            };
+
+            var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+
+        // function windowResized() {
+        //     drawChart();
+        // }
+        
+    </script>
+    
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+  </body>
+</html>
